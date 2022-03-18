@@ -81,7 +81,7 @@ def risk_score(data: dict):
         busiId = None
     if len(data) <= 1 or busiId is None:
         log.logger.warning(f'{busiId}:Data is empty --------------------------------')
-        return {'prob': -9999, 'status_code': 101, 'msg': 'success',
+        return {'score': -9999, 'status_code': 101, 'msg': 'success',
                 'detail': '参数错误', 'version': '3.0'}
     try:
         # 主函数
@@ -114,7 +114,7 @@ def risk_score(data: dict):
                                                            axis=1)
             lgb_prob = np.mean([i.predict(model_data) for i in lgb_model], axis=0)[0]
             score = prob2Score(lgb_prob)
-            result = {'prob': int(score), 'msg': 'success', 'status_code': 100, 'busiId': busiId, 'version': '3.0'}
+            result = {'score': int(score), 'msg': 'success', 'status_code': 100, 'busiId': busiId, 'version': '3.0'}
             log.logger.info(f'{busiId}:finish predict,score:{int(score)}, '
                             f'[old customer]--------------------------------')
         # 新客
@@ -137,7 +137,7 @@ def risk_score(data: dict):
             model_data['channel'] = model_data.apply(lambda x: channel_map.get(x['channel'], 3), axis=1)
             lgb_prob = np.mean([i.predict(model_data) for i in lgb_model], axis=0)[0]
             score = prob2Score(lgb_prob)
-            result = {'prob': int(score), 'msg': 'success', 'status_code': 100, 'busiId': busiId, 'version': '3.0'}
+            result = {'score': int(score), 'msg': 'success', 'status_code': 100, 'busiId': busiId, 'version': '3.0'}
             log.logger.info(f'{busiId}:finish predict,score:{int(score)}, '
                             f'[new customer]--------------------------------')
         return result
