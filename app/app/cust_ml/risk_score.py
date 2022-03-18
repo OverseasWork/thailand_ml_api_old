@@ -86,6 +86,8 @@ def risk_score(data: dict):
     try:
         # 主函数
         log.logger.info(f'{busiId}: starting run --------------------------------')
+        loan_market = data["loan_market"]
+        campaign_name = data["campaign_name"]
         data['add_list'] = json.dumps(data['add_list'])
         data['app_list'] = json.dumps(data['app_list'])
         a = json.dumps(data)
@@ -115,7 +117,8 @@ def risk_score(data: dict):
             lgb_prob = np.mean([i.predict(model_data) for i in lgb_model], axis=0)[0]
             score = prob2Score(lgb_prob)
             result = {'score': int(score), 'msg': 'success', 'status_code': 100, 'busiId': busiId, 'version': '3.0'}
-            log.logger.info(f'{busiId}:finish predict,score:{int(score)}, '
+            log.logger.info(f'{busiId}:finish predict,score:{int(score)},'
+                            f'[campaign]:{campaign_name}, [loanMarket]:{loan_market},'
                             f'[old customer]--------------------------------')
         # 新客
         else:
@@ -139,6 +142,7 @@ def risk_score(data: dict):
             score = prob2Score(lgb_prob)
             result = {'score': int(score), 'msg': 'success', 'status_code': 100, 'busiId': busiId, 'version': '3.0'}
             log.logger.info(f'{busiId}:finish predict,score:{int(score)}, '
+                            f'[campaign]:{campaign_name}, [loanMarket]:{loan_market},'
                             f'[new customer]--------------------------------')
         return result
     except Exception as error:
