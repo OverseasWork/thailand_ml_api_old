@@ -27,19 +27,23 @@ class CustData(BaseModel):
     age: int = Field(default=None, title='年龄', example=35, description="下单时间减去 - 出生日期")
     his_sum_rej_cnt: int = Field(default=None, title='历史累计拒绝次数', example=0)
     gender: str = Field(default=None, title='性别', example='MALE', description='性别:MALE,FEMALE')
-    campaign_name: str = Field(default=None, title='渠道名', example='adrachel')
+    campaign_name: str = Field(default=None, title='渠道名', example='adrachel', description='superads: 0; adrachel: 1;'
+                           'Organic: 2; Cash: 3; bojan: 4; ahajoyco: 5; -999: 6; neptune: 7; fendikennytech: 8; API: 9; '
+                            'xinmiaohudong: 10; adsnova: 11; AdRachel: 12; hamobi: 13; chestnuts: 14; Cash2: 15;')
     kids: int = Field(default=0, title='孩子个数', example=1)
     current_debt_amount: float = Field(default=None, title='当前共债金额', example=1000.0)
     industry: int = Field(default=None, title='行业', example=59)
     face_comparison: int = Field(default=None, title='人脸比对', example=77)
-    channel: str = Field(default=None, title='渠道名', example='Facebook')
+    channel: str = Field(default=None, title='渠道名', example='Facebook', description='Facebook: 0; Cash: 1; Organic: 2; '
+                                                                                    '-999: 3; Google: 4; bojan: 5; '
+                                                                                    'bytedanceglobal_int: 6; '
+                                                                                    'AdRachel: 7; Cash2: 8')
     device_cor_mobile_num: int = Field(default=None, title='设备关联手机号数量', example=2)
     identity_cor_mobile_num: int = Field(default=None, title='身份证关联手机号数量', example=2)
     identity_register_product: int = Field(default=None, title='身份证注册过的产品数量', example=1)
     re_7d_apply_num: int = Field(default=0, title='近7天申请次数', example=0, description='0,1,2,3 ...')
     phone_version_num: int = Field(default=None, title='手机版本号', example=10)
     income: float = Field(default=None, title='收入', example=3000.0)
-    ram_x: float = Field(default=None, title='RAM_X', example=16.25, description='RAM: 3.25 GB/8.01 GB, 截取第一个数值')
-    rom_x: float = Field(default=None, title='ROM_X', example=18.01, description='RAM: 3.25 GB/128 GB, 截取第一个数值')
     app_list: List[AppList] = Field(default=..., example=appListExample, title='appList', description='applist详情')
     add_list: List[AddList] = Field(default=..., example=addListExample, title='通讯录', description='通讯录详情')
+
