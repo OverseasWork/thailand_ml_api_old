@@ -12,8 +12,6 @@ FeatMap = {
     'add_list': 'add_list',
     'RAM': 'RAM',
     'ROM': 'ROM',
-    'ram_x': 'ram_x',
-    'rom_x': 'rom_x',
     'work_type': '职位',
     'education': '教育程度',
     'loan_market': '1表示贷超，0表示非贷超',
