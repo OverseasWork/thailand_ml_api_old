@@ -26,18 +26,21 @@ class CustData(BaseModel):
     re_24h_apply_num: int = Field(default=None, title='近24小时申请次数', example=0, description='0,1,2,3 ...')
     age: int = Field(default=None, title='年龄', example=35, description="下单时间减去 - 出生日期")
     his_sum_rej_cnt: int = Field(default=None, title='历史累计拒绝次数', example=0)
-    gender: str = Field(default=None, title='性别', example='MALE', description='性别:MALE,FEMALE')
-    campaign_name: str = Field(default=None, title='渠道名', example='adrachel', description='superads: 0; adrachel: 1;'
-                           'Organic: 2; Cash: 3; bojan: 4; ahajoyco: 5; -999: 6; neptune: 7; fendikennytech: 8; API: 9; '
-                            'xinmiaohudong: 10; adsnova: 11; AdRachel: 12; hamobi: 13; chestnuts: 14; Cash2: 15;')
+    gender: int = Field(default=None, title='性别', example=1, description='1:男;2女')
+    campaign_name: str = Field(default=None, title='渠道名', example='adrachel', description='superads; adrachel'
+                           'Organic; Cash; bojan; ahajoyco; -999; neptune; fendikennytech; API; '
+                            'xinmiaohudong; adsnova; AdRachel; hamobi; chestnuts; Cash2;')
     kids: int = Field(default=0, title='孩子个数', example=1)
     current_debt_amount: float = Field(default=None, title='当前共债金额', example=1000.0)
-    industry: int = Field(default=None, title='行业', example=59)
+    industry: int = Field(default=None, title='行业', example=59, description='50:it;51:医师;52:养殖员;53:农民;54:建筑师;'
+                                                                            '55:司机;56:售货员;57:学生;58:会计;59:生意人;'
+                                                                            '60:警察;61:渔民;62:商贩;63:教师;64:公务员;'
+                                                                            '65:律师;66:军人;67:金融机构;68:餐饮;69:其他;')
     face_comparison: int = Field(default=None, title='人脸比对', example=77)
-    channel: str = Field(default=None, title='渠道名', example='Facebook', description='Facebook: 0; Cash: 1; Organic: 2; '
-                                                                                    '-999: 3; Google: 4; bojan: 5; '
-                                                                                    'bytedanceglobal_int: 6; '
-                                                                                    'AdRachel: 7; Cash2: 8')
+    channel: str = Field(default=None, title='渠道名', example='Facebook', description='Facebook; Cash; Organic; '
+                                                                                    '-999; Google; bojan;'
+                                                                                    'bytedanceglobal_int; '
+                                                                                    'AdRachel; Cash2;')
     device_cor_mobile_num: int = Field(default=None, title='设备关联手机号数量', example=2)
     identity_cor_mobile_num: int = Field(default=None, title='身份证关联手机号数量', example=2)
     identity_register_product: int = Field(default=None, title='身份证注册过的产品数量', example=1)
@@ -46,4 +49,5 @@ class CustData(BaseModel):
     income: float = Field(default=None, title='收入', example=3000.0)
     app_list: List[AppList] = Field(default=..., example=appListExample, title='appList', description='applist详情')
     add_list: List[AddList] = Field(default=..., example=addListExample, title='通讯录', description='通讯录详情')
+
 
