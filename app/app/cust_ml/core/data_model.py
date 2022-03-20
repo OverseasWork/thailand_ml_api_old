@@ -46,7 +46,7 @@ class CustData(BaseModel):
     identity_register_product: int = Field(default=None, title='身份证注册过的产品数量', example=1)
     re_7d_apply_num: int = Field(default=0, title='近7天申请次数', example=0, description='0,1,2,3 ...')
     phone_version_num: int = Field(default=None, title='手机版本号', example=10)
-    income: float = Field(default=None, title='收入', example=3000.0)
+    income: int = Field(default=None, title='收入', example=1, description='1:8000以下;2;在8000和15000之间;3;15000以上;')
     app_list: List[AppList] = Field(default=..., example=appListExample, title='appList', description='applist详情')
     add_list: List[AddList] = Field(default=..., example=addListExample, title='通讯录', description='通讯录详情')
 
