@@ -94,28 +94,38 @@ def feature_step2(new):
 
 def get_feature(data):
     df = pd.DataFrame(json.loads(data.loc[0, 'app_list']))
-    df['apply_time'] = data.loc[0, 'create_time']
-    df['apply_time'] = pd.to_datetime(df['apply_time'])
-    df['lastTime'] = pd.to_datetime(df['lastTime'])
-    self_df = df[df.lastTime > datetime.datetime(2010, 1, 1)]
+    apply_time = pd.to_datetime(data.loc[0, 'create_time'])
+    busi_id = data.loc[0, 'busi_id']
+    if not df.empty:
+        df['apply_time'] = apply_time
+        df['lastTime'] = pd.to_datetime(df['lastTime'])
+        self_df = df[df.lastTime > datetime.datetime(2010, 1, 1)]
 
-    day_tag = pd.DataFrame(pd.cut((self_df['apply_time'] - self_df['lastTime']).dt.days,
+        day_tag = pd.DataFrame(pd.cut((self_df['apply_time'] - self_df['lastTime']).dt.days,
                                   bins=[0, 1, 3, 7, 15, 30, 60, np.inf], include_lowest=True,
                                   labels=['self_1', 'self_3', 'self_7', 'self_15', 'self_30', 'self_60',
                                           'self_90']).value_counts()).T
-    day_tag.columns = day_tag.columns.tolist()
-    self_comp = df[df.packageName.isin(comp.package)]
-    comp_day_tag = pd.DataFrame(pd.cut((self_comp['apply_time'] - self_comp['lastTime']).dt.days,
+        day_tag.columns = day_tag.columns.tolist()
+        self_comp = df[df.packageName.isin(comp.package)]
+        comp_day_tag = pd.DataFrame(pd.cut((self_comp['apply_time'] - self_comp['lastTime']).dt.days,
                                        bins=[0, 1, 3, 7, 15, 30, 60, np.inf], include_lowest=True,
                                        labels=['comp_1', 'comp_3', 'comp_7', 'comp_15', 'comp_30', 'comp_60',
                                                'comp_90']).value_counts()).T
-    comp_day_tag.columns = comp_day_tag.columns.tolist()
-    day_tag['busi_id'] = data.loc[0, 'busi_id']
+        comp_day_tag.columns = comp_day_tag.columns.tolist()
+        day_tag['busi_id'] = busi_id
     # day_tag['DB'] = data.loc[0, 'db_name']
-    day_tag['apply_time'] = data.loc[0, 'create_time']
-    day_tag['all_self_cnt'] = self_df.shape[0]
-    day_tag['all_self_comp_cnt'] = self_comp.shape[0]
-    day_tag['all_cnt'] = df.shape[0]
+        day_tag['apply_time'] = data.loc[0, 'create_time']
+        day_tag['all_self_cnt'] = self_df.shape[0]
+        day_tag['all_self_comp_cnt'] = self_comp.shape[0]
+        day_tag['all_cnt'] = df.shape[0]
+    else:
+        comp_day_tag = pd.DataFrame([{'comp_1': 0, 'comp_3': 0, 'comp_7': 0, 'comp_15': 0, 'comp_30': 0, 'comp_60': 0, 'comp_90': 0}])
+        day_tag = pd.DataFrame()
+        day_tag['busi_id'] = busi_id
+        day_tag['apply_time'] = apply_time
+        for col in ['self_90', 'self_1', 'self_3', 'self_7', 'self_15', 'self_30',
+                    'self_60', 'all_self_cnt', 'all_self_comp_cnt','all_cnt']:
+            day_tag[col] = 0
     # add-------
     add_df = pd.DataFrame(json.loads(data.loc[0, 'add_list']))
     add_df['contain_chs'] = add_df['other_name'].str.extract(r'([\u4e00-\u9fa5]+)')

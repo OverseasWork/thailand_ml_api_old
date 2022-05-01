@@ -7,7 +7,8 @@ import datetime
 from conf.log_config import log
 from utils.load_utils import load_txt_feat
 from utils.ml_utils import prob2Score, cal_ram_rom, feature_step2, get_feature
-
+import warnings
+warnings.filterwarnings('ignore')
 import sys
 sys.path.append('..')
 
@@ -54,7 +55,7 @@ def risk_score(data: dict):
             model_data = data3[in_model_col]
             model_data['campaign_name'] = model_data.apply(lambda x: campaign_name_map.get(x['campaign_name'], 9),
                                                            axis=1)
-            lgb_prob = np.mean([i.predict(model_data) for i in lgb_model], axis=0)[0]
+            lgb_prob = np.nanmean([i.predict(model_data) for i in lgb_model], axis=0)[0]
             score = prob2Score(lgb_prob)
             result = {'score': int(score), 'msg': 'success', 'status_code': 100, 'busiId': busiId, 'version': '3.0'}
             log.logger.info(f'{busiId}:finish predict,score:{int(score)},'
@@ -78,7 +79,7 @@ def risk_score(data: dict):
             model_data['campaign_name'] = model_data.apply(lambda x: campaign_name_map.get(x['campaign_name'], 6),
                                                            axis=1)
             model_data['channel'] = model_data.apply(lambda x: channel_map.get(x['channel'], 3), axis=1)
-            lgb_prob = np.mean([i.predict(model_data) for i in lgb_model], axis=0)[0]
+            lgb_prob = np.nanmean([i.predict(model_data) for i in lgb_model], axis=0)[0]
             score = prob2Score(lgb_prob)
             result = {'score': int(score), 'msg': 'success', 'status_code': 100, 'busiId': busiId, 'version': '3.0'}
             log.logger.info(f'{busiId}:finish predict,score:{int(score)}, '
